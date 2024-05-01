@@ -3,9 +3,9 @@ from psycopg2 import sql
 import csv
 
 # Database connection parameters
-dbname = "Metamusic"
+dbname = "postgres"
 user = "postgres"
-password = "King@1397"
+password = "password"
 host = "localhost"
 port = "5432"
 
