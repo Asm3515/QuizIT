@@ -1,6 +1,7 @@
 import psycopg2
 from psycopg2 import sql
 import csv
+import uuid
 
 # Database connection parameters
 dbname = "postgres"
@@ -10,7 +11,7 @@ host = "localhost"
 port = "5432"
 
 # CSV file name
-csv_file_name = "Spotify_Youtube.csv"
+csv_file_name = "datos_merged_1986_2023.csv"
 
 try:
     # Connect to the database
@@ -33,23 +34,44 @@ try:
             if not all(row.values()):
                 continue
 
-            # Insert each non-empty row into their respective database tables
+            # Check if artists exist if not then add them to Artists Table
+            artists=row['artists_names'].split(';')
+            artist_id=None
+            for artist in artists:
+                cur.execute("SELECT id FROM artist WHERE name = %s",(artist,))
+                artist_id=cur.fetchone()
+                if artist_id is None:
+                    artist_id=str(uuid.uuid4())
+                    cur.execute("INSERT INTO artist (id,name) VALUES (%s,%s)",(artist_id,artist))
+                    print(f"Inserted {artist} into the Artist Table")
+                else:
+                    artist_id=artist_id[0]
 
-            # insert_query = f"INSERT INTO URL VALUES (\'{row['Track']}\',\'{row['Url_spotify']}\',\'{row['Url_youtube']}\')"
-            # cur.execute(insert_query)
-            cur.execute("INSERT INTO URL VALUES (%s,%s,%s) ON CONFLICT (Track) DO NOTHING;",(row['Track'],row['Url_spotify'],row['Url_youtube']))
+            # Check if genres exist if not then add them to Genre Table
+            genres = row['artist_genres'].split(';')
+            genre_id=None
+            for genre in genres:
+                cur.execute("SELECT id FROM genre WHERE name = %s", (genre,))
+                genre_id = cur.fetchone()
+                if genre_id is None:
+                    genre_id = str(uuid.uuid4())
+                    cur.execute(
+                        "INSERT INTO genre (id,name) VALUES (%s,%s)", (genre_id, genre))
+                    print(f"Inserted {genre} into the Genre Table")
+                else:
+                    genre_id = genre_id[0]
 
-            # insert_query = f"INSERT INTO Statistic VALUES (\'{row['Track']}\',{row['Danceability']},{row['Energy']},{row['Key']},{row['Loudness']},{row['Speechiness']},{row['Acousticness']},{row['Instrumentalness']},{row['Liveness']},{row['Valence']},{row['Tempo']},{row['Duration_ms']})"
-            # cur.execute(insert_query)
-            cur.execute("INSERT INTO Statistic VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (Track) DO NOTHING;",(row['Track'],float(row['Danceability']),float(row['Energy']),int(float(row['Key'])),float(row['Loudness']),float(row['Speechiness']),float(row['Acousticness']),float(row['Instrumentalness']),float(row['Liveness']),float(row['Valence']),float(row['Tempo']),int(float(row['Duration_ms']))))
+            # Add Track to the Track Table
+            track_id=str(uuid.uuid4())
+            cur.execute("INSERT INTO TRACK (id,title,duration_in_ms,album,track_number,popularity,explicit,release_date,acousticness,danceability,energy,speechiness,instrumentalness,loundness,tempo,liveness,valence) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(track_id,row['title'],int(row['duration_in_ms']),row['album'],int(row['track_number']),int(row['popularity']),row['explicit'],row['release_date'],float(row['acousticness']),float(row['danceability']),float(row['energy']),float(row['speechiness']),float(row['instrumentalness']),float(row['loudness']),float(row['tempo']),float(row['liveness']),float(row['valence'])))
 
-            # insert_query = f"INSERT INTO Song VALUES (\'{row['Track']}\',\'{row['Artist']}\',\'{row['Title']}\',{row['Likes']},{row['Comments']},\'{row['Description']}\',\'{row['Licensed']}\',\'{row['official_video']}\',\'{row['Stream']}\')"
-            # cur.execute(insert_query)
-            cur.execute("INSERT INTO Song VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (Track) DO NOTHING;",(row['Track'],row['Artist'],row['Title'],int(float(row['Likes'])),int(float(row['Comments'])),row['Description'],row['Licensed'],row['official_video'],row['Stream']))
+            # Connect artist to track using track_artist_connector
+            cur.execute("INSERT INTO track_artist_connector (artist_id,track_id) VALUES (%s,%s)",(artist_id,track_id))
+            # Connect genre to track using track_genre_connector
+            cur.execute("INSERT INTO track_genre_connector (track_id,genre_id) VALUES (%s,%s)",(track_id,genre_id))
 
     # Commit the transaction
     conn.commit()
-
     print("Data loaded successfully!")
 
 except psycopg2.Error as e:
