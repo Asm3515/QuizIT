@@ -124,24 +124,60 @@ app.get('/top-ten-artists', async (req, res) => {
 app.get('/best-workout-songs', async (req, res) => {
   try {
     const { rows } = await pool.query(`
+    select
+    t.id as track_id,
+    t.title,
+    t.duration_in_ms,
+    t.album,
+    t.track_number,
+    t.popularity,
+    a.name as artist_name,
+    (t.energy + t.tempo + t.danceability + t.valence + t.loudness + t.popularity) as combined_score
+  from
+    track t
+  join
+        track_artist_connector tac on
+    t.id = tac.track_id
+  join
+        artist a on
+    tac.artist_id = a.id
+  order by
+    combined_score desc
+  limit
+        50;
+  
+    `);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/best-melancholic-songs', async (req, res) => {
+  try {
+    const { rows } = await pool.query(`
     SELECT
-      t.id AS track_id,
-      t.title,
-      t.energy,
-      t.tempo,
-      t.danceability,
-      a.name AS artist_name,
-      (t.energy + t.tempo + t.danceability) AS combined_score
-    FROM
-      track t
-    JOIN
-      track_artist_connector tac ON t.id = tac.track_id
-    JOIN
-      artist a ON tac.artist_id = a.id
-    ORDER BY
-      combined_score DESC
-    LIMIT
-      50;
+    t.id AS track_id,
+    t.title,
+    t.duration_in_ms,
+    t.album,
+    t.track_number,
+    t.popularity,
+    a.name AS artist_name,
+    (t.tempo + t.valence + t.loudness) AS combined_score
+FROM
+    track t
+JOIN
+    track_artist_connector tac ON t.id = tac.track_id
+JOIN
+    artist a ON tac.artist_id = a.id
+ORDER BY
+    combined_score asc,
+    t.popularity desc
+LIMIT
+    50;
+  
     `);
     res.json(rows);
   } catch (error) {

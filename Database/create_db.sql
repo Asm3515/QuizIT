@@ -61,7 +61,7 @@ CREATE TABLE public.track (
 	energy numeric NULL,
 	speechiness numeric NULL,
 	instrumentalness numeric NULL,
-	loundness numeric NULL,
+	loudness numeric NULL,
 	tempo numeric NULL,
 	liveness numeric NULL,
 	valence numeric NULL,
