@@ -15,5 +15,8 @@
     "jsonwebtoken": "^9.0.2",
     "localStorage": "^1.0.4",
     "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
   }
 }

@@ -49,12 +49,17 @@ app.get('/top-ten-popular-songs', async (req, res) => {
 
 app.get('/top-ten-popular-songs/genre/:genre', async (req, res) => {
   try {
+    const genre = req.params.genre;
     const { rows } = await pool.query(`
-      SELECT t.*
+      SELECT t.*,
+      a.name AS artist_name,
+      g.name AS genre_name
       FROM track t
+      JOIN track_artist_connector tac ON t.id = tac.track_id
+      JOIN artist a ON tac.artist_id = a.id
       JOIN track_genre_connector tgc ON tgc.track_id = t.id
       JOIN genre g ON g.id = tgc.genre_id
-      WHERE g.name = ${genre}
+      WHERE g.name like '%${genre}%'
       ORDER BY t.popularity DESC
       LIMIT 10;
     `);
@@ -65,14 +70,19 @@ app.get('/top-ten-popular-songs/genre/:genre', async (req, res) => {
   }
 });
 
-app.get('/top-ten-popular-songs/artist/:artist', async (req, res) => {
+app.get('/top-ten-popular-songs/artist/:artistId', async (req, res) => {
   try {
+    const artistId = req.params.artistId;
     const { rows } = await pool.query(`
-      SELECT t.*
+      SELECT t.*,     
+      a.name AS artist_name,
+      g.name AS genre_name
       FROM track t
+      JOIN track_genre_connector tgc ON tgc.track_id = t.id
+      JOIN genre g ON g.id = tgc.genre_id
       JOIN track_artist_connector tac ON tac.track_id = t.id
       JOIN artist a ON a.id = tac.artist_id
-      WHERE a.name = ${artist}
+      WHERE a.id = '${artistId}'
       ORDER BY t.popularity DESC
       LIMIT 10;
     `);
@@ -132,7 +142,7 @@ app.get('/best-workout-songs', async (req, res) => {
     t.track_number,
     t.popularity,
     a.name as artist_name,
-    (t.energy + t.tempo + t.danceability + t.valence + t.loudness + t.popularity) as combined_score
+    ((0.35 * t.energy) + (0.25 * t.tempo) + (0.2 * t.danceability) + (0.15 * t.valence) + (0.05 * t.loudness) + t.popularity) as combined_score
   from
     track t
   join
@@ -165,7 +175,7 @@ app.get('/best-melancholic-songs', async (req, res) => {
     t.track_number,
     t.popularity,
     a.name AS artist_name,
-    (t.tempo + t.valence + t.loudness) AS combined_score
+    ((0.3 * (1 - t.tempo)) + (0.5 * t.valence) + (0.2 * (1 - energy))) AS combined_score
 FROM
     track t
 JOIN
@@ -174,6 +184,82 @@ JOIN
     artist a ON tac.artist_id = a.id
 ORDER BY
     combined_score asc,
+    t.popularity desc
+LIMIT
+    50;
+  
+    `);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/top-charts/year/:year', async (req, res) => {
+  try {
+    const year = req.params.year;
+    const { rows } = await pool.query(`
+    SELECT
+    t.id AS track_id,
+    t.title,
+    t.album,
+    t.duration_in_ms,
+    t.track_number,
+    t.popularity,
+    t.release_date,
+    g.name AS genre_name,
+    a.name AS artist_name
+FROM
+    track t
+JOIN
+    track_artist_connector tac ON t.id = tac.track_id
+JOIN
+    artist a ON tac.artist_id = a.id
+JOIN 
+    track_genre_connector tgc ON tgc.track_id = t.id
+JOIN 
+    genre g ON g.id = tgc.genre_id
+WHERE
+    t.release_date >= '${year}-01-01'
+    AND t.release_date < '${year + 1}-01-01'
+ORDER BY
+    t.popularity desc
+limit 50;
+    `);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/best-dance-songs', async (req, res) => {
+  try {
+    const { rows } = await pool.query(`
+    SELECT
+    t.id AS track_id,
+    t.title,
+    t.duration_in_ms,
+    t.album,
+    t.track_number,
+    t.popularity,
+    a.name AS artist_name,
+    (0.3 * t.danceability) + (0.2 * t.energy) + (0.25 * t.tempo) + (0.25 * t.valence) AS combined_score
+FROM
+    track t
+JOIN
+    track_artist_connector tac ON t.id = tac.track_id
+JOIN
+    artist a ON tac.artist_id = a.id
+JOIN 
+    track_genre_connector tgc ON tgc.track_id = t.id
+JOIN 
+    genre g ON g.id = tgc.genre_id
+WHERE
+    g.name like '%dance%'
+ORDER BY
+    combined_score desc,
     t.popularity desc
 LIMIT
     50;
