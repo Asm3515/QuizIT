@@ -2,8 +2,8 @@
     max-height: 50vh;
 }
 
-.margin-right-20{
-    margin-right: 20px;
+.no-scrollbar{
+  overflow-y:none;
 }
 
  /* App CSS */

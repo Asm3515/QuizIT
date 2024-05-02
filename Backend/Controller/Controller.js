@@ -15,7 +15,7 @@ const pool = new Pool({
 exports.registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
+    console.log('called');
     // Check if the Email already exists
     const userExistsQuery = 'SELECT * FROM Users WHERE email = $1';
     const userExistsResult = await pool.query(userExistsQuery, [email]);

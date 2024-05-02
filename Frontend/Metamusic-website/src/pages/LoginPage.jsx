@@ -40,7 +40,6 @@ export function LoginPage() {
 
     return (
         <main className='gradient-main no-scroll-bar'>
-            <div id="stars"></div>
             <Fade triggerOnce={true}>
                 <div className="authentication-container">
                     <DotLottiePlayer className='illustration' src={music_animation} autoplay loop />
