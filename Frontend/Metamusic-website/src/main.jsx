@@ -12,6 +12,10 @@ import { LoginPage, loader as loginLoader, action as loginAction } from './pages
 import { AuthChecker } from './components/AuthChecker.jsx';
 import './index.css';
 import { SearchResultsPage } from './pages/SearchResultsPage.jsx';
+import { TopRomanticSongs } from './pages/topcharts/Romantic.jsx';
+import { TopWorkoutSongs } from './pages/topcharts/Workout.jsx';
+import { TopDanceSongs } from './pages/topcharts/Dance.jsx';
+import { TopMelancholicSongs } from './pages/topcharts/Melancholic.jsx';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +49,26 @@ const router = createBrowserRouter([
       {
         path: "search/:searchTerm",
         element: <SearchResultsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "topcharts/romantic",
+        element: <TopRomanticSongs />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "topcharts/workout",
+        element: <TopWorkoutSongs />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "topcharts/dance",
+        element: <TopDanceSongs />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "topcharts/melancholic",
+        element: <TopMelancholicSongs />,
         errorElement: <ErrorPage />,
       }
     ],

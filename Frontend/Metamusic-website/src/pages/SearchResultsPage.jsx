@@ -11,7 +11,6 @@ export function SearchResultsPage() {
         try {
             const response = await fetch(`http://localhost:3001/track/search/${searchTerm}`);
             const data = await response.json();
-            data.map((song) => { console.log(song) });
             setSearchResults(data);
         } catch (error) {
             console.error('Error fetching top artists:', error);

@@ -75,7 +75,34 @@ export function HomePage() {
 
 
                 <h1 className="text-3xl font-semibold my-8">Discover Exciting New Music</h1>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+                    <div key='top-romantic-songs' className="card bg-base-100 shadow-xl image-full">
+                        <figure><img src="https://static01.nyt.com/images/2022/01/13/fashion/07LOVE-BOMBING/07LOVE-BOMBING-articleLarge.jpg?quality=75&auto=webp&disable=upscale" alt="Romance Image" /></figure>
+                        <Link to="/topcharts/romantic" className="card-body flex items-center justify-center">
+                            <h2 className="text-lg text-white">Romantic Songs</h2>
+                        </Link>
+                    </div>
+
+                    <div key='top-workout-songs' className="card bg-base-100 shadow-xl image-full">
+                        <figure><img src="https://www.hussle.com/blog/wp-content/uploads/2020/12/Gym-structure-1080x675.png" alt="Romance Image" /></figure>
+                        <Link to="/topcharts/workout" className="card-body flex items-center justify-center">
+                            <h2 className="text-lg text-white">Workout Songs</h2>
+                        </Link>
+                    </div>
+
+                    <div key='top-dance-songs' className="card bg-base-100 shadow-xl image-full">
+                        <figure><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB5dUBq3K-wX_kfVyayCO7WinS6q4Jof-3otcU5i3SQQ&s" alt="Romance Image" /></figure>
+                        <Link to="/topcharts/dance" className="card-body flex items-center justify-center">
+                            <h2 className="text-lg text-white">Dance Beats</h2>
+                        </Link>
+                    </div>
+
+                    <div key='top-melancholic-songs' className="card bg-base-100 shadow-xl image-full">
+                        <figure><img src="https://esoftskills.com/wp-content/uploads/2024/01/Melancholic.jpg" alt="Romance Image" /></figure>
+                        <Link to="/topcharts/melancholic" className="card-body flex items-center justify-center">
+                            <h2 className="text-lg text-white">Melancholic Songs</h2>
+                        </Link>
+                    </div>
                 </div>
 
             </div>

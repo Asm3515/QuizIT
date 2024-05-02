@@ -11,6 +11,7 @@ export default function Header( {initialSearchTerm} ) {
     localStorage.removeItem("user");
     setUser(null);
     console.log("Logged out");
+    navigate('/');
     window.location.reload();
   }
 
