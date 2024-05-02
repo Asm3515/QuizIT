@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const localStorage = require('localStorage');
 const { Pool } = require('pg');
 const crypto = require('crypto');
 

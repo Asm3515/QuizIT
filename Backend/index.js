@@ -5,9 +5,12 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const { Pool } = require('pg')
 const PORT = 3001
-const bcrypt=require('bcrypt')
+const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const jwt = require("jsonwebtoken");
+const localStorage = require('localStorage');
+
+const secrets = require('./secrets');
 
 const app = express()
 
@@ -18,8 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'metamusic',
-  password: 'password',
+  database: 'Metamusic',
+  password: 'King@1397',
   port: 5432,
 });
 
@@ -28,11 +31,33 @@ module.exports = pool;
 app.use('/api/playlists', playlistRoutes);
 app.use('/api/songs', songRoutes);
 
+async function setAccessToken() {
+
+  const requestBody = new URLSearchParams();
+  requestBody.append('grant_type', 'client_credentials');
+  requestBody.append('client_id', secrets.spotifyClientId);
+  requestBody.append('client_secret', secrets.spotifyClientSecret);
+
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/x-www-form-urlencoded'
+    },
+    body: requestBody
+  });
+
+  const data = await response.json();
+
+  localStorage.setItem('access_token', data['access_token']);
+}
+
+setAccessToken();
+
 app.get('/', (req, res) => {
   res.send("Welcome to Metamusic")
 })
 
-app.post("/register",async (req,res)=>{
+app.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
     // Check if the Email already exists
@@ -59,7 +84,7 @@ app.post("/register",async (req,res)=>{
   }
 })
 
-app.post("/login",async (req,res)=>{
+app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -80,7 +105,7 @@ app.post("/login",async (req,res)=>{
     }
 
     // Generate JWT token
-    const token = jwt.sign({email: email }, 'your_secret_key');
+    const token = jwt.sign({ email: email }, 'your_secret_key');
 
     res.json({ token });
   } catch (error) {
@@ -89,7 +114,7 @@ app.post("/login",async (req,res)=>{
   }
 })
 
-app.delete("/:email",async (req,res)=>{
+app.delete("/:email", async (req, res) => {
   try {
     const { email } = req.params;
 
@@ -107,11 +132,29 @@ app.delete("/:email",async (req,res)=>{
 app.get('/top-ten-popular-songs', async (req, res) => {
   try {
     const { rows } = await pool.query(`
-      SELECT *
-      FROM track
-      ORDER BY popularity DESC
+      SELECT t.title AS title,t.album AS album,t.release_date AS release_date,a.name AS artist
+      FROM track t
+      LEFT JOIN track_artist_connector tac ON t.id=tac.track_id
+      LEFT JOIN artist a ON a.id=tac.artist_id
+      ORDER BY t.popularity DESC
       LIMIT 10;
     `);
+    let access_token = localStorage.getItem('access_token');
+    rows.map(async (row) => {
+      //Get Album Art of The Songs
+      const searchParams = new URLSearchParams({ q: row.title, type: "album", limit:1,offset:0 });
+      const search_url=new URL(`https://api.spotify.com/v1/search?${searchParams}`);
+
+      console.log(search_url.href);
+
+      const response = await fetch(search_url.href, {
+        headers: {
+          "Authorization": 'Bearer ' + access_token
+        }
+      });
+      const data = await response.json();
+      rows['album_art_url']=data['albums']['items'][0]['images'][0]['url'];
+    })
     res.json(rows);
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -380,7 +423,7 @@ LIMIT
   }
 });
 
-app.post("/user/:userId/favourite-track/:trackId",async (req,res)=>{
+app.post("/user/:userId/favourite-track/:trackId", async (req, res) => {
   try {
     const trackId = req.params.trackId;
     const userId = req.params.userId;
@@ -408,7 +451,7 @@ app.post("/user/:userId/favourite-track/:trackId",async (req,res)=>{
   }
 })
 
-app.get("/user/:userId/favourite-tracks",async (req,res)=>{
+app.get("/user/:userId/favourite-tracks", async (req, res) => {
   try {
     const userId = req.params.userId;
 
@@ -448,7 +491,7 @@ app.get("/user/:userId/favourite-tracks",async (req,res)=>{
   }
 })
 
-app.delete("/user/:userId/favourite-track/:trackId",async (req,res)=>{
+app.delete("/user/:userId/favourite-track/:trackId", async (req, res) => {
   try {
     const trackId = req.params.trackId;
     const userId = req.params.userId;
@@ -477,7 +520,7 @@ app.delete("/user/:userId/favourite-track/:trackId",async (req,res)=>{
   }
 })
 
-app.get("/track/search/:searchTerm",async (req,res)=>{
+app.get("/track/search/:searchTerm", async (req, res) => {
   try {
     const searchTerm = req.params.searchTerm.replace(/ /g, "%");
     console.log(searchTerm);

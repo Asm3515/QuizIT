@@ -61,7 +61,7 @@ export function HomePage({ logOut }) {
                 {topSongs.map((song) => (
                     <div key={song.id} className="p-4 border rounded cursor-pointer" onClick={() => handleSongClick(song)}>
                         <h2 className="text-lg font-semibold mb-2">{song.title}</h2>
-                        <p className="text-lg  mb-2">Popularity Score :{song.popularity}</p>
+                        <h2 className="text-lg font-semibold mb-2">{song.artist}</h2>
                         <p className="text-lg  mb-2">Album : {song.album}</p>
                         <p className="text-lg  mb-2">Release Date : {song.release_date}</p>
                         {/* Display other song information as needed */}
