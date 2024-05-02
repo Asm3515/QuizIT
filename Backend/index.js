@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const { Pool } = require('pg')
 const PORT = 3001
 const bcrypt=require('bcrypt')
+const crypto = require('crypto')
 const jwt = require("jsonwebtoken");
 
 const app = express()
@@ -17,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'Metamusic',
-  password: 'King@1397',
+  database: 'Master',
+  password: 'root',
   port: 5432,
 });
 
