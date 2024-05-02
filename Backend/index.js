@@ -477,6 +477,41 @@ app.delete("/user/:userId/favourite-track/:trackId",async (req,res)=>{
   }
 })
 
+app.get("/track/search/:searchTerm",async (req,res)=>{
+  try {
+    const searchTerm = req.params.searchTerm.replace(/ /g, "%");
+    console.log(searchTerm);
+    const { rows } = await pool.query(`
+    select 
+        t.id AS track_id,
+        t.title,
+        t.duration_in_ms,
+        t.album,
+        t.track_number,
+        t.popularity,
+        a.name AS artist_name
+    FROM
+        track t
+    JOIN
+        track_artist_connector tac ON t.id = tac.track_id
+    JOIN
+        artist a ON tac.artist_id = a.id
+    JOIN 
+        track_genre_connector tgc ON tgc.track_id = t.id
+    JOIN 
+        genre g ON g.id = tgc.genre_id
+    WHERE
+        t.title ilike '%${searchTerm}%'
+    ORDER BY
+        t.popularity DESC
+`);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error searching songs:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
