@@ -88,7 +88,7 @@ app.post("/login",async (req,res)=>{
   }
 })
 
-app.delete("/:username",async (req,res)=>{
+app.delete("/:email",async (req,res)=>{
   try {
     const { email } = req.params;
 
