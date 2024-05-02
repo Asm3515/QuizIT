@@ -272,6 +272,42 @@ LIMIT
   }
 });
 
+app.get('/best-romantic-songs', async (req, res) => {
+  try {
+    const { rows } = await pool.query(`
+    SELECT
+    t.id AS track_id,
+    t.title,
+    t.duration_in_ms,
+    t.album,
+    t.track_number,
+    t.popularity,
+    a.name AS artist_name,
+    (0.2 * (1 - t.energy)) + (0.2 * (1 - t.tempo)) + (0.6 * t.valence) AS combined_score
+FROM
+    track t
+JOIN
+    track_artist_connector tac ON t.id = tac.track_id
+JOIN
+    artist a ON tac.artist_id = a.id
+JOIN 
+    track_genre_connector tgc ON tgc.track_id = t.id
+JOIN 
+    genre g ON g.id = tgc.genre_id
+ORDER BY
+    combined_score desc,
+    t.popularity desc
+LIMIT
+    50;
+  
+    `);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
