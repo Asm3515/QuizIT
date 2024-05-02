@@ -4,9 +4,9 @@ import csv
 import uuid
 
 # Database connection parameters
-dbname = "Metamusic"
+dbname = "metamusic"
 user = "postgres"
-password = "King@1397"
+password = "password"
 host = "localhost"
 port = "5432"
 
@@ -63,7 +63,7 @@ try:
 
             # Add Track to the Track Table
             track_id=str(uuid.uuid4())
-            cur.execute("INSERT INTO TRACK (id,title,duration_in_ms,album,track_number,popularity,explicit,release_date,acousticness,danceability,energy,speechiness,instrumentalness,loundness,tempo,liveness,valence) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(track_id,row['title'],int(row['duration_in_ms']),row['album'],int(row['track_number']),int(row['popularity']),row['explicit'],row['release_date'],float(row['acousticness']),float(row['danceability']),float(row['energy']),float(row['speechiness']),float(row['instrumentalness']),float(row['loudness']),float(row['tempo']),float(row['liveness']),float(row['valence'])))
+            cur.execute("INSERT INTO TRACK (id,title,duration_in_ms,album,track_number,popularity,explicit,release_date,acousticness,danceability,energy,speechiness,instrumentalness,loudness,tempo,liveness,valence) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);",(track_id,row['title'],int(row['duration_in_ms']),row['album'],int(row['track_number']),int(row['popularity']),row['explicit'],row['release_date'],float(row['acousticness']),float(row['danceability']),float(row['energy']),float(row['speechiness']),float(row['instrumentalness']),float(row['loudness']),float(row['tempo']),float(row['liveness']),float(row['valence'])))
 
             # Connect artist to track using track_artist_connector
             cur.execute("INSERT INTO track_artist_connector (artist_id,track_id) VALUES (%s,%s)",(artist_id,track_id))
