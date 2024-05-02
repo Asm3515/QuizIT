@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const { Pool } = require('pg')
 const PORT = 3001
 const bcrypt=require('bcrypt')
+const crypto = require('crypto')
 const jwt = require("jsonwebtoken");
 
 const app = express()
