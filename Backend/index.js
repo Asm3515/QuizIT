@@ -17,6 +17,7 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("dist"));
 
 const pool = new Pool({
   user: 'postgres',
@@ -54,7 +55,7 @@ async function setAccessToken() {
 setAccessToken();
 
 app.get('/', (req, res) => {
-  res.send("Welcome to Metamusic")
+  res.sendFile(path.join(__dirname,'/dist','/index.html'));
 })
 
 app.post("/register", async (req, res) => {
