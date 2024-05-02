@@ -23,7 +23,7 @@ export async function action({ request }) {
         const jsonResponse = await response.json();
         console.log(jsonResponse);
         if (response.status == 201) {
-            return redirect(`user/${jsonResponse['id']}`);
+            return redirect("/login");
         }
         else if(response.status==400){
             alert("Email already exists, try logging in");
