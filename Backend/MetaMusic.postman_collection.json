@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "ef7d8068-e8d3-4820-a23f-96c373c8714e",
+		"name": "MetaMusic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29851916"
+	},
+	"item": [
+		{
+			"name": "top-ten-songs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/top-ten-popular-songs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"top-ten-popular-songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-ten-by-genre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/top-ten-popular-songs/genre/:genre",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"top-ten-popular-songs",
+						"genre",
+						":genre"
+					],
+					"variable": [
+						{
+							"key": "genre",
+							"value": "nu metal"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-ten-by-artist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/top-ten-popular-songs/artist/:artistId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"top-ten-popular-songs",
+						"artist",
+						":artistId"
+					],
+					"variable": [
+						{
+							"key": "artistId",
+							"value": "76aca973-8000-4763-923c-d3973ba7a369"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-ten-artists",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/top-ten-artists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"top-ten-artists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "best-workout-songs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/best-workout-songs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"best-workout-songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "best-melancholic-songs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/best-melancholic-songs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"best-melancholic-songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "best-dance-songs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/best-dance-songs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"best-dance-songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "best-romantic-songs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/best-romantic-songs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"best-romantic-songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "top-charts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/top-charts/year/2010",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"top-charts",
+						"year",
+						"2010"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
