@@ -18,9 +18,7 @@ Data Source: <b> Kaggle (https://www.kaggle.com/datasets/nicolasfierro/spotify-1
 2. Run the Python script <b>./Database/populate_db.py</b> to populate the database with the data present in the <b>./Database/datos_merged_1986_2023.csv</b>
 3. If there are any import errors in the Python script, use PIP to install the necessary dependency libraries (psycopg2, csv, uuid).
 4. Run the backend application by running <b>node ./Backend/index.js</b>
-5. 
-
-
+5. The server-side rendering is enabled and the homepage can be access at http://127.0.0.1:3001
 
 ## Authors
 <b>Aditya Ramesh<br>
