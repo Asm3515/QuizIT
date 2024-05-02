@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import {
-  createHashRouter,
+  createBrowserRouter,
   Outlet,
   RouterProvider,
 } from "react-router-dom";
@@ -11,8 +11,9 @@ import { SignUpPage, action as signUpAction } from './pages/SignUpPage.jsx';
 import { LoginPage, loader as loginLoader, action as loginAction } from './pages/LoginPage.jsx';
 import { AuthChecker } from './components/AuthChecker.jsx';
 import './index.css';
+import { SearchResultsPage } from './pages/SearchResultsPage.jsx';
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
@@ -30,7 +31,7 @@ const router = createHashRouter([
           {
             path: "",
             element: <SignUpPage />,
-            loader:loginLoader,
+            loader: loginLoader,
             action: signUpAction,
           }
         ],
@@ -38,16 +39,21 @@ const router = createHashRouter([
       {
         path: "login/",
         element: <LoginPage />,
-        loader:loginLoader,
+        loader: loginLoader,
         action: loginAction,
       },
+      {
+        path: "search/:searchTerm",
+        element: <SearchResultsPage />,
+        errorElement: <ErrorPage />,
+      }
     ],
   },
   {
     path: "/user/:id",
     element: <h1>Hello</h1>,
     errorElement: <ErrorPage />,
-  }
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

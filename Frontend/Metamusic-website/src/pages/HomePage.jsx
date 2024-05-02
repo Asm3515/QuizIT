@@ -4,7 +4,7 @@ import Header from "../components/Home/Header"
 import default_album_art from "../assets/images/default_album_art.png"
 import default_artist_image from "../assets/images/default_artist_image.png"
 
-export function HomePage({ logOut }) {
+export function HomePage() {
     const [user, setUser] = useOutletContext();
     const [isUserEditPage, setIsUserEditPage] = useState(false);
 
@@ -44,7 +44,7 @@ export function HomePage({ logOut }) {
     return (
         <>
             <div className="container mx-auto mt-8">
-                <Header logOut={logOut} />
+                <Header />
                 <h1 className="text-3xl font-semibold m-4">Top Songs</h1>
                 <div className="carousel carousel-center w-full">
                     {topSongs.map((song, index) => (
@@ -74,7 +74,7 @@ export function HomePage({ logOut }) {
                 </div>
 
 
-                <h1 className="text-3xl font-semibold my-8">Discover New Exciting Music</h1>
+                <h1 className="text-3xl font-semibold my-8">Discover Exciting New Music</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 </div>
 

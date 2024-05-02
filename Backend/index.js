@@ -537,7 +537,6 @@ app.delete("/user/:userId/favourite-track/:trackId", async (req, res) => {
 app.get("/track/search/:searchTerm", async (req, res) => {
   try {
     const searchTerm = req.params.searchTerm.replace(/ /g, "%");
-    console.log(searchTerm);
     const { rows } = await pool.query(`
     select 
         t.id AS track_id,
