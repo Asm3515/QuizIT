@@ -17,8 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'Metamusic',
-  password: 'King@1397',
+  database: 'metamusic',
+  password: 'password',
   port: 5432,
 });
 
@@ -378,6 +378,35 @@ LIMIT
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+app.post("/user/:userId/favourite-track/:trackId",async (req,res)=>{
+  try {
+    const trackId = req.params.trackId;
+    const userId = req.params.userId;
+    // Check if user exists
+    const userExistsQuery = 'SELECT * FROM public.user u WHERE u.id = $1';
+    const userExistsResult = await pool.query(userExistsQuery, [userId]);
+    if (userExistsResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User doesnot exist' });
+    }
+
+    // Check if track exists
+    const trackExistsQuery = 'SELECT * FROM public.track t WHERE t.id = $1';
+    const trackExistsResult = await pool.query(trackExistsQuery, [trackId]);
+    if (userExistsResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Track doesnot exist' });
+    }
+
+    // Insert the new user into the database
+    const insertUserQuery = 'INSERT INTO public.user_track_connector (user_id, track_id) VALUES ($1, $2)';
+    await pool.query(insertUserQuery, [userId, trackId]);
+
+    res.status(201).json({ userId: userId, message: 'User favourited the song successfully' });
+  } catch (error) {
+    console.error('Error favouriting the song:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
