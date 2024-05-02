@@ -2,6 +2,10 @@
     max-height: 50vh;
 }
 
+.margin-right-20{
+    margin-right: 20px;
+}
+
  /* App CSS */
  .app {
     display: flex;

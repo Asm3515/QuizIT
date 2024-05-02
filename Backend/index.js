@@ -16,8 +16,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'metamusic',
-  password: 'password',
+  database: 'Metamusic',
+  password: 'King@1397',
   port: 5432,
 });
 
