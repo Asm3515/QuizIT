@@ -7,6 +7,62 @@
 	},
 	"item": [
 		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"xyz\",\r\n    \"email\" : \"zzx@gmail.com\",\r\n    \"password\" : \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"zyzx@gmail.com\",\r\n    \"password\" : \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "top-ten-songs",
 			"request": {
 				"method": "GET",
@@ -190,6 +246,124 @@
 						"top-charts",
 						"year",
 						"2010"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "favourite-a-song",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/user/:userId/favourite-track/:trackId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"user",
+						":userId",
+						"favourite-track",
+						":trackId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "e02d4f4a-bb29-4293-9b5c-38633c911897"
+						},
+						{
+							"key": "trackId",
+							"value": "3bd49a5f-f3ee-48a7-833e-80eacb021340"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-favourites",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/user/:userId/favourite-tracks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"user",
+						":userId",
+						"favourite-tracks"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "e02d4f4a-bb29-4293-9b5c-38633c911897"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unfavourite-a-song",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/user/:userId/favourite-track/:trackId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"user",
+						":userId",
+						"favourite-track",
+						":trackId"
+					],
+					"variable": [
+						{
+							"key": "userId",
+							"value": "e02d4f4a-bb29-4293-9b5c-38633c911897"
+						},
+						{
+							"key": "trackId",
+							"value": "3bd49a5f-f3ee-48a7-833e-80eacb021340"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search-tracks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/track/search/:searchTerm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"track",
+						"search",
+						":searchTerm"
+					],
+					"variable": [
+						{
+							"key": "searchTerm",
+							"value": "in the end"
+						}
 					]
 				}
 			},
