@@ -35,7 +35,7 @@ export async function action({ request }) {
 export function SignUpPage() {
     return (
         <Fade triggerOnce={true}>
-            <section className="h-screen flex items-center justify-center max-half-screen-size">
+            <section className="authentication-container">
                 <div className="grid w-full grid-cols-2">
                     <div>
                         <DotLottiePlayer className='illustration' src={signup_animation} autoplay loop />

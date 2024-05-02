@@ -29,7 +29,7 @@ app.use('/api/playlists', playlistRoutes);
 app.use('/api/songs', songRoutes);
 
 app.get('/', (req, res) => {
-  res.send("Hello")
+  res.send("Welcome to Metamusic")
 })
 
 app.get('/top-ten-popular-songs', async (req, res) => {
