@@ -11,7 +11,7 @@ API Testing: <b> Postman </b> <br>
 Data Source: <b> Kaggle (https://www.kaggle.com/datasets/nicolasfierro/spotify-1986-2023) </b><br>
 
 ## Database Schema
-
+![metamusic - public](https://github.com/adeeteya/MetaMusic/assets/46561338/84e000af-8e38-46ab-b829-9c9a3eb3077c)
 
 ## Setup
 1. Create the database by running the <b>./Database/create_db.sql</b>
