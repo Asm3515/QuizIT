@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'Master',
-  password: 'root',
+  database: 'metamusic',
+  password: 'password',
   port: 5432,
 });
 
@@ -379,6 +379,103 @@ LIMIT
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+app.post("/user/:userId/favourite-track/:trackId",async (req,res)=>{
+  try {
+    const trackId = req.params.trackId;
+    const userId = req.params.userId;
+    // Check if user exists
+    const userExistsQuery = 'SELECT * FROM public.user u WHERE u.id = $1';
+    const userExistsResult = await pool.query(userExistsQuery, [userId]);
+    if (userExistsResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User doesnot exist' });
+    }
+
+    // Check if track exists
+    const trackExistsQuery = 'SELECT * FROM public.track t WHERE t.id = $1';
+    const trackExistsResult = await pool.query(trackExistsQuery, [trackId]);
+    if (trackExistsResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Track doesnot exist' });
+    }
+
+    const insertQuery = 'INSERT INTO public.user_track_connector (user_id, track_id) VALUES ($1, $2)';
+    await pool.query(insertQuery, [userId, trackId]);
+
+    res.status(201).json({ userId: userId, message: 'User favourited the song successfully' });
+  } catch (error) {
+    console.error('Error favouriting the song:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
+app.get("/user/:userId/favourite-tracks",async (req,res)=>{
+  try {
+    const userId = req.params.userId;
+
+    // Check if user exists
+    const userExistsQuery = 'SELECT * FROM public.user u WHERE u.id = $1';
+    const userExistsResult = await pool.query(userExistsQuery, [userId]);
+    if (userExistsResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User doesnot exist' });
+    }
+
+    const { rows } = await pool.query(`
+    select 
+        t.id AS track_id,
+        t.title,
+        t.duration_in_ms,
+        t.album,
+        t.track_number,
+        t.popularity,
+        a.name AS artist_name
+    FROM
+        track t
+    JOIN
+        track_artist_connector tac ON t.id = tac.track_id
+    JOIN
+        artist a ON tac.artist_id = a.id
+    JOIN 
+        track_genre_connector tgc ON tgc.track_id = t.id
+    JOIN 
+        genre g ON g.id = tgc.genre_id
+    JOIN 
+        user_track_connector utc ON utc.track_id = t.id
+`);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Error favouriting the song:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
+
+app.delete("/user/:userId/favourite-track/:trackId",async (req,res)=>{
+  try {
+    const trackId = req.params.trackId;
+    const userId = req.params.userId;
+    // Check if user exists
+    const userExistsQuery = 'SELECT * FROM public.user u WHERE u.id = $1';
+    const userExistsResult = await pool.query(userExistsQuery, [userId]);
+    if (userExistsResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User doesnot exist' });
+    }
+
+    // Check if track exists
+    const trackExistsQuery = 'SELECT * FROM public.track t WHERE t.id = $1';
+    const trackExistsResult = await pool.query(trackExistsQuery, [trackId]);
+    if (trackExistsResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Track doesnot exist' });
+    }
+
+    const deleteQuery = `DELETE FROM public.user_track_connector
+    WHERE user_id = $1 AND track_id = $2`;
+    await pool.query(deleteQuery, [userId, trackId]);
+
+    res.status(200).json({ userId: userId, message: 'User unfavourited the song successfully' });
+  } catch (error) {
+    console.error('Error unfavouriting the song:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
