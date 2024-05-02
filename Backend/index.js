@@ -32,7 +32,6 @@ app.get('/', (req, res) => {
 app.post("/register",async (req,res)=>{
   try {
     const { name, email, password } = req.body;
-    console.log('called');
     // Check if the Email already exists
     const userExistsQuery = 'SELECT * FROM User WHERE email = $1';
     const userExistsResult = await pool.query(userExistsQuery, [email]);
