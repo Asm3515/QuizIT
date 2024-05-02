@@ -5,6 +5,8 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const { Pool } = require('pg')
 const PORT = 3001
+const bcrypt=require('bcrypt')
+const jwt = require("jsonwebtoken");
 
 const app = express()
 
@@ -33,7 +35,7 @@ app.post("/register",async (req,res)=>{
   try {
     const { name, email, password } = req.body;
     // Check if the Email already exists
-    const userExistsQuery = 'SELECT * FROM User WHERE email = $1';
+    const userExistsQuery = 'SELECT * FROM public.user u WHERE u.email = $1';
     const userExistsResult = await pool.query(userExistsQuery, [email]);
     if (userExistsResult.rows.length > 0) {
       return res.status(400).json({ error: 'Email already exists, try logging in' });
@@ -46,7 +48,7 @@ app.post("/register",async (req,res)=>{
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert the new user into the database
-    const insertUserQuery = 'INSERT INTO Users (id, name, email, password) VALUES ($1, $2, $3, $4)';
+    const insertUserQuery = 'INSERT INTO public.user (id, name, email, password_hash) VALUES ($1, $2, $3, $4)';
     await pool.query(insertUserQuery, [userId, name, email, hashedPassword]);
 
     res.status(201).json({ userId: userId, message: 'User registered successfully' });
@@ -61,7 +63,7 @@ app.post("/login",async (req,res)=>{
     const { email, password } = req.body;
 
     // Retrieve user from the database
-    const getUserQuery = 'SELECT * FROM User WHERE email = $1';
+    const getUserQuery = 'SELECT * FROM public.user u WHERE u.email = $1';
     const getUserResult = await pool.query(getUserQuery, [email]);
     const user = getUserResult.rows[0];
 
@@ -71,13 +73,13 @@ app.post("/login",async (req,res)=>{
     }
 
     // Check if the password is correct
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(password, user.password_hash);
     if (!passwordMatch) {
       return res.status(401).json({ error: 'Invalid Password' });
     }
 
     // Generate JWT token
-    const token = jwt.sign({ username: user.Username, email: user.Email }, 'your_secret_key');
+    const token = jwt.sign({email: email }, 'your_secret_key');
 
     res.json({ token });
   } catch (error) {
@@ -91,7 +93,7 @@ app.delete("/:username",async (req,res)=>{
     const { email } = req.params;
 
     // Delete the user from the database
-    const deleteUserQuery = 'DELETE FROM User WHERE email = $1';
+    const deleteUserQuery = 'DELETE FROM public.user u WHERE u.email = $1';
     await pool.query(deleteUserQuery, [email]);
 
     res.json({ message: 'User deleted successfully' });
