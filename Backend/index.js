@@ -287,6 +287,21 @@ app.get('/best-workout-songs', async (req, res) => {
         50;
   
     `);
+    let access_token = localStorage.getItem('access_token');
+    await Promise.all(rows.map(async (row, index) => {
+      //Get Album Art of The Songs
+      const searchParams = new URLSearchParams({ q: row.album, type: "album", limit: 1, offset: 0 });
+      const search_url = new URL(`https://api.spotify.com/v1/search?${searchParams}`);
+
+      const response = await fetch(search_url.href, {
+        headers: {
+          "Authorization": 'Bearer ' + access_token
+        }
+      });
+      const data = await response.json();
+      rows[index]['album_art_url'] = data['albums']['items'][0]['images'][0]['url'];
+      rows[index]['album_url'] = data['albums']['items'][0]['external_urls']['spotify'];
+    }));
     res.json(rows);
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -319,6 +334,21 @@ LIMIT
     50;
   
     `);
+    let access_token = localStorage.getItem('access_token');
+    await Promise.all(rows.map(async (row, index) => {
+      //Get Album Art of The Songs
+      const searchParams = new URLSearchParams({ q: row.album, type: "album", limit: 1, offset: 0 });
+      const search_url = new URL(`https://api.spotify.com/v1/search?${searchParams}`);
+
+      const response = await fetch(search_url.href, {
+        headers: {
+          "Authorization": 'Bearer ' + access_token
+        }
+      });
+      const data = await response.json();
+      rows[index]['album_art_url'] = data['albums']['items'][0]['images'][0]['url'];
+      rows[index]['album_url'] = data['albums']['items'][0]['external_urls']['spotify'];
+    }));
     res.json(rows);
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -395,6 +425,21 @@ LIMIT
     50;
   
     `);
+    let access_token = localStorage.getItem('access_token');
+    await Promise.all(rows.map(async (row, index) => {
+      //Get Album Art of The Songs
+      const searchParams = new URLSearchParams({ q: row.album, type: "album", limit: 1, offset: 0 });
+      const search_url = new URL(`https://api.spotify.com/v1/search?${searchParams}`);
+
+      const response = await fetch(search_url.href, {
+        headers: {
+          "Authorization": 'Bearer ' + access_token
+        }
+      });
+      const data = await response.json();
+      rows[index]['album_art_url'] = data['albums']['items'][0]['images'][0]['url'];
+      rows[index]['album_url'] = data['albums']['items'][0]['external_urls']['spotify'];
+    }));
     res.json(rows);
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -431,6 +476,21 @@ LIMIT
     50;
   
     `);
+    let access_token = localStorage.getItem('access_token');
+    await Promise.all(rows.map(async (row, index) => {
+      //Get Album Art of The Songs
+      const searchParams = new URLSearchParams({ q: row.album, type: "album", limit: 1, offset: 0 });
+      const search_url = new URL(`https://api.spotify.com/v1/search?${searchParams}`);
+
+      const response = await fetch(search_url.href, {
+        headers: {
+          "Authorization": 'Bearer ' + access_token
+        }
+      });
+      const data = await response.json();
+      rows[index]['album_art_url'] = data['albums']['items'][0]['images'][0]['url'];
+      rows[index]['album_url'] = data['albums']['items'][0]['external_urls']['spotify'];
+    }));
     res.json(rows);
   } catch (error) {
     console.error('Error fetching data:', error);
