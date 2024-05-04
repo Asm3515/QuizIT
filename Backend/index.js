@@ -22,8 +22,8 @@ app.use(express.static("dist"));
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'Metamusic',
-  password: 'King@1397',
+  database: 'Master',
+  password: 'root',
   port: 5432,
 });
 
