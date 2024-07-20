@@ -15,10 +15,6 @@ function App() {
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
-      <p>
-        Boilerplate by{" "}
-        <a href="https://github.com/sarthakskumar">Sarthak S Kumar</a>
-      </p>
     </>
   );
 }
