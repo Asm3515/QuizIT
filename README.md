@@ -1,10 +1,4 @@
-<img src="banner.png" alt="Vite+React+Tailwind Boilerplate | Sarthak S Kumar"></img>
-
 # Vite.js + React Boilerplate
-
-![GitHub License](https://img.shields.io/github/license/SarthakSKumar/Vite.js-React.js-Tailwind-Boilerplate)
-![GitHub Stars](https://img.shields.io/github/stars/SarthakSKumar/Vite.js-React.js-Tailwind-Boilerplate)
-![GitHub Forks](https://img.shields.io/github/forks/SarthakSKumar/Vite.js-React.js-Tailwind-Boilerplate)
 
 Welcome to the Vite.js and React Boilerplate repository! 🚀
 
@@ -31,7 +25,7 @@ Follow these steps to clone and start working with this boilerplate:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/SarthakSKumar/Vite.js-React.js-Tailwind-Boilerplate.git
+   git clone <gitlinktorepo>
    cd your-repo-name
    ```
 
@@ -67,6 +61,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [SWC](https://swc.rs/)
 - [Yarn](https://yarnpkg.com/)
 
-## Author
-
-- [Sarthak S Kumar](https://github.com/SarthakSKumar)
