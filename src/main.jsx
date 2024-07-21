@@ -7,6 +7,7 @@ import {
 import { LoginPage, loader as loginLoader, action as loginAction } from './pages/LoginPage.jsx';
 import { SignUpPage, action as signUpAction } from './pages/SignUpPage.jsx';
 import { LandingPage } from './pages/LandingPage.jsx'; // Import LandingPage
+import { Quiz } from './pages/Quiz.jsx'
 import ErrorBoundary from './components/ErrorBoundry.jsx';
 import './index.css';
 
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
   
   {
     path: "/login",
-    element: <LoginPage />,
+    element: <Quiz />,
     loader: loginLoader,
     action: loginAction,
     errorElement: <ErrorBoundary />,
