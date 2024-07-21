@@ -1,0 +1,304 @@
+.max-half-screen-size{
+    max-height: 50vh;
+}
+
+.no-scrollbar{
+  overflow-y:none;
+}
+
+ /* App CSS */
+ .app {
+    display: flex;
+    flex-direction: column; 
+    min-height: 100vh; 
+    text-align: left;
+    overflow-x: hidden;
+    padding-top: 50px; 
+  }
+  
+  .top-container,
+  .bottom-container {
+    width: 100%;
+    padding: 10px 0;
+    background-color: rgb(227, 224, 224);
+    text-align: center;
+    left: 0;
+    z-index: 100;
+  }
+  
+  .top-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 30px;
+    background-color: white;
+    width: 100%; 
+    top: 0;
+    z-index: 100; 
+    position: fixed;
+  }
+  
+  
+  .bottom-container {
+    bottom: 0;
+    padding: 10px 30px;
+    height: 80px; 
+    margin-top: 100px;
+  }
+  
+  .app-nav {
+    order: 1; 
+  }
+  
+  .app-nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex; 
+    gap: 20px; 
+  }
+  
+  .app-nav li {
+    padding: 10px; 
+  }
+  
+  .app-nav a {
+    text-decoration: none;
+    color: gray; 
+    font-weight: 500;
+  } 
+  
+  .bottom-nav ul {
+    list-style-type: none;
+    padding: 10px;
+    display: flex; 
+    gap: 20px;
+  }
+  
+  .bottom-nav li {
+    padding: 10px; 
+  }
+  .bottom-nav a {
+    text-decoration: none;
+    color: black; 
+    align-items: center;
+  } 
+  
+  
+  /* Header CSS */
+  .app-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 30px; 
+    width: 100%; 
+  }
+  
+  .left-container {
+    justify-content: flex-end; 
+  }
+  
+  .right-container {
+    justify-content: flex-start; 
+  }
+  
+  .bottom-full-width {
+    width: 100%; 
+    padding: 20px; 
+    height: unset;
+    border-radius: 20px; 
+  }
+  
+  .app-logo {
+    order: 2; 
+    height: auto; 
+    width: 50px; 
+  }
+  
+  .app-logo
+  {
+    height: 50vmin;
+    pointer-events: none;
+  }
+  
+  .profile-container {
+    padding: 100px; 
+    border-radius: 20%; 
+    background: linear-gradient(45deg, #4657c8, #ba58bb);
+    display: inline-block; 
+    line-height: 0; 
+    height: 70vmin;
+    margin-bottom: 100px;
+  }
+  
+  
+  .buttons-container {
+    display: flex;
+    justify-content: center;  
+    margin-top: 20px;
+  }
+  
+  .login-button {
+    background: linear-gradient(45deg, #4657c8, #ba58bb);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-right: 15px; 
+  }
+  
+  .signup-button {
+    background: linear-gradient(45deg, #4657c8, #ba58bb);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+  }
+  
+  .buttons-container button {
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .buttons-container button:hover {
+    opacity: 0.9;
+  }
+  
+  
+  
+  .profile {
+    height: 50vmin;
+    width: auto; 
+  
+  }
+  
+  .app-profile {
+    height: auto; 
+    width: 50px; 
+  
+  }
+  
+  
+  /* Main content CSS */
+  main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .about-me-container {
+    position: relative;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.about-me-container:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+    background: linear-gradient(45deg, #4657c8, #ba58bb);
+    border-radius: 25px;  
+    z-index: -1;
+    pointer-events: none;
+}
+
+.about-me-container:after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+    background: white;
+    border-radius: 10px;
+    z-index: -1;
+}
+
+.about-me {
+    position: relative;
+    z-index: 2;
+}
+  
+  
+  .text-muted {
+    color: black;
+    font-weight: 300;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  
+  /* Footer CSS */
+  .app-footer {
+    display: flex; 
+    align-items: center; 
+    padding: 20px;
+    height: 100%;
+    justify-content: space-between; 
+    color: black; 
+  }
+  
+
+  .small {
+    text-decoration: none; 
+    color: black; 
+    margin-right: 10px; 
+  }
+  
+  .small:last-child {
+    margin-right: 0; 
+  }
+  
+  /* Font Awesome Icons styles */
+  .fab,
+  .fas {
+    font-size: 1.5em;
+    margin: 0 0.25em;
+    transition: color 0.3s ease;
+    color: black;
+  }
+  
+  .fab:hover,
+  .fas:hover {
+    color: darkblue;
+  }
+  
+  /* Animations and Keyframes */
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .main-content{ 
+    animation: fade-in 2s forwards;
+    min-height: 80vh;
+    flex-grow: 1;
+    width: 100%; 
+    overflow: auto; 
+    padding: 20px; 
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    display: flex;
+    flex-direction: column; 
+  }
+  
+  .bottom-container { 
+    animation: fade-in 2s forwards;
+  }
